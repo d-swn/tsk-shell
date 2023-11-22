@@ -2,7 +2,7 @@
 
 ## File Extraction Script
 
-This Bash script is designed for processing and extracting data from a specified input file. It offers various features including checking dependencies, extracting data based on inode values, and providing an interactive search within the filesystem.
+This Bash script is designed for processing and extracting data from a specified input file utilizing [The Sleuth Kit](https://github.com/sleuthkit/sleuthkit). It offers various features including checking dependencies, extracting data based on inode values, and providing an interactive search within the filesystem.
 
 ## Features
 
