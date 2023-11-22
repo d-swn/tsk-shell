@@ -1,4 +1,4 @@
-# tsk-shell
+# sleuth kit shell
 
 ## File Extraction Script
 
