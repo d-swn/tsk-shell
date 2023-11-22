@@ -42,7 +42,7 @@ Extracted Data Directory:  out/extracted
 ## Example
 
 ```bash
-./run.sh -o 5 -f example.dd
+./run.sh -o 2048 -f example.dd
 ```
 
 ## Dependencies
