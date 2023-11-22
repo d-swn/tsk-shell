@@ -1,4 +1,4 @@
-# sleuth kit shell
+# Sleuth Kit Shell
 
 ## File Extraction Script
 
