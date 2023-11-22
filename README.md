@@ -21,23 +21,27 @@ To use the script, run:
 
 ## Options
 
--o OFFSET: Specifies the offset value to be used in the script.
--f INPUT_FILE: Defines the input file for the script to process.
+```
+-o OFFSET: Specifies the offset value to be used in the script
+-f INPUT_FILE: Defines the input file for the script to process
 -d: Checks if all dependencies are installed.
-
+```
  ## Interactive Mode
 
  After initial processing, the script enters an interactive mode with the following commands:
 
-- 'n': Process specific node by inode.
-- 's': Perform a filename text search.
-- 'c': Execute an arbitrary command.
-- 'q': Exit the script.
+```
+'n': Process specific node by inode
+'s': Perform a filename text search
+'c': Execute an arbitrary command
+'q': Exit the script
+```
 
 ## Directory Structure
 
-Output Directory: out/
-Extracted Data Directory:  out/extracted
+Output Directory: ```out/```
+
+Extracted Data Directory:  ```out/extracted```
 
 ## Example
 
