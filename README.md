@@ -1,8 +1,6 @@
-# Sleuth Kit Shell
+# TSK Shell
 
 ![tskshell](https://github.com/d-swn/tsk-shell/assets/149192290/09158439-b97a-44ec-98dc-60f4e4b6634a)
-
-## File Extraction Script
 
 This Bash script is designed for processing and extracting data from a specified input file utilizing [The Sleuth Kit](https://github.com/sleuthkit/sleuthkit). It offers various features including checking dependencies, extracting data based on inode values, and providing an interactive search within the filesystem.
 
