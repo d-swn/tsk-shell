@@ -11,8 +11,6 @@ filesystem_file="$out_dir/filesystem.txt"
 
 dependencies=("fls" "grep" "awk" "sed" "strings" "icat")
 
-
-# Function to show usage
 usage() {
     echo "Usage: $0 -o offset -f input_file"
     echo "Options:"
@@ -47,9 +45,12 @@ check_dependencies() {
 # Function to handle search operation
 handle_search() {
     local search_word="$1"
-    # Escape the dot and append '$' if the search word ends with '.log'
-    if [[ $search_word == *.log ]]; then
-        search_pattern="\\$search_word$"
+    local search_pattern=""
+
+    # Check if the search word ends with a file extension (e.g., .png, .txt, .log)
+    if [[ $search_word =~ \.[a-zA-Z0-9]+$ ]]; then
+        # Escape the dot and ensure it appears at the end of a filename
+        search_pattern=$(echo "$search_word" | sed 's/\./\\./')"$"
     else
         search_pattern="$search_word"
     fi
@@ -58,6 +59,7 @@ handle_search() {
     local output=$(grep -E "$search_pattern" $filesystem_file | nl -w1 -s': ')
     echo "$output"
 }
+
 
 
 clean_string() {
@@ -76,6 +78,7 @@ clean_string() {
 }
 
 process_line() {
+    # Use awk to extract the node and name
 
     # Extract the last word
     line=$1
