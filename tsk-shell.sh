@@ -150,8 +150,8 @@ print_ascii
 echo -e "\e[0;32mProcessing with offset: $offset\e[0;37m "
 echo -e "\e[0;32mInput file: $input_file\e[0;37m " 
 
-echo -e "\e[0;32mProcessing with offset: $offset" > "$meta_file \e[0;37m "
-echo  "Input file: $input_file" >> "$meta_file"
+echo "Processing with offset: $offset" > "$meta_file"
+echo "Input file: $input_file" >> "$meta_file"
 
 wait
 echo -e "\e[0;32mReading filesystem\e[0;37m "
