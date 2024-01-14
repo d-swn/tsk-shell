@@ -31,7 +31,7 @@ To use the script, run:
  After initial processing, the script enters an interactive mode with the following commands:
 
 ```
-'n': Process specific node by inode
+'i': Inspect specific file via inode
 's': Perform a filename text search
 'c': Execute an arbitrary command
 'q': Exit the script
@@ -39,9 +39,9 @@ To use the script, run:
 
 ## Directory Structure
 
-Output Directory: ```out/```
+Output directory: ```out/```
 
-Extracted Data Directory:  ```out/extracted```
+Extracted data directory:  ```out/extracted```
 
 ## Example
 
