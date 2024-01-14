@@ -143,7 +143,7 @@ while [ $hasExited -eq 0 ] ; do
     wait
     echo ""
     echo "---ACTION----"
-    echo "'n' pick specific node with inode"
+    echo "'n' pick specific file via inode"
     echo "'s' filename text search"
     echo "'c' execute arbitrary command"
     echo "'q' exit"
