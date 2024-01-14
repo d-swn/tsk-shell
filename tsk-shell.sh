@@ -1,16 +1,13 @@
 #!/bin/bash
 
-# Initialize variables
 offset=0
 input_file=""
-
 
 out_dir="out"
 extracted_data_dir="extracted"
 
 meta_file="$out_dir/meta_information.txt"
 filesystem_file="$out_dir/filesystem.txt"
-
 
 dependencies=("fls" "grep" "awk" "sed" "strings" "icat")
 
@@ -50,7 +47,6 @@ check_dependencies() {
 # Function to handle search operation
 handle_search() {
     local search_word="$1"
-    # Use a regular expression for a more precise match
     # Escape the dot and append '$' if the search word ends with '.log'
     if [[ $search_word == *.log ]]; then
         search_pattern="\\$search_word$"
@@ -80,7 +76,6 @@ clean_string() {
 }
 
 process_line() {
-    # Use awk to extract the node and name
 
     # Extract the last word
     line=$1
