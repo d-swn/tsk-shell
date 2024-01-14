@@ -163,7 +163,7 @@ wait
 echo -e "\e[0;32mFilesystem processed\e[0;37m "
 
 echo ""
-read -p "Display filesystem? (y/n): " choice_print_filesystem
+read -p "Show filesystem? (y/n): " choice_print_filesystem
 
 if [ "$choice_print_filesystem" = "y" ]; then
     cat $filesystem_file
