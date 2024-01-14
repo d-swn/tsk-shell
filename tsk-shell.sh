@@ -50,10 +50,19 @@ check_dependencies() {
 # Function to handle search operation
 handle_search() {
     local search_word="$1"
-    grep "$search_word" $filesystem_file > searchresults.txt
-    local output=$(grep "$search_word" $filesystem_file | nl -w1 -s': ')
+    # Use a regular expression for a more precise match
+    # Escape the dot and append '$' if the search word ends with '.log'
+    if [[ $search_word == *.log ]]; then
+        search_pattern="\\$search_word$"
+    else
+        search_pattern="$search_word"
+    fi
+
+    grep -E "$search_pattern" $filesystem_file > searchresults.txt
+    local output=$(grep -E "$search_pattern" $filesystem_file | nl -w1 -s': ')
     echo "$output"
 }
+
 
 clean_string() {
     local input_string="$1"
@@ -94,10 +103,30 @@ process_line() {
     
     icat -o $offset $input_file $node > "$out_dir/$extracted_data_dir/$last_word"
     echo ""
-    echo "Extracting: $last_word"
+    echo -e "\e[1;32m- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\e[0;37m"
+    echo -e "\e[1;32mExtracting:\e[0;37m $last_word "
+    echo -e "\e[0;32mextracted content\e[0;37m"
+    echo  ""
     strings "$out_dir/$extracted_data_dir/$last_word"
     echo ""
     }   
+
+
+print_ascii() {
+clear
+echo -e "\e[40m"
+
+echo -e "\e[1;37m _____ ____  _  __  ____  _   _ _____ _     _     "
+echo -e "|_   _/ ___|| |/ / / ___|| | | | ____| |   | |    "
+echo -e "  | | \\___ \\| ' /  \\___ \\| |_| |  _| | |   | |    "
+echo -e "  | |  ___) | . \\   ___) |  _  | |___| |___| |___ "
+echo -e "  |_| |____/|_|\\_\\ |____/|_| |_|_____|_____|_____|"
+echo -e ""
+echo -e "- - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+echo -e "\e[0;37m"
+
+}
+	
 
 # Parse command-line options
 while getopts ':do:f:' flag; do
@@ -118,18 +147,21 @@ fi
 mkdir -p "$out_dir"
 mkdir -p "$out_dir/$extracted_data_dir"
 
-echo "Processing with offset: $offset"
-echo "Input file: $input_file" 
+print_ascii
 
-echo "Processing with offset: $offset" > "$meta_file"
-echo "Input file: $input_file" >> "$meta_file"
+echo -e "\e[0;32mProcessing with offset: $offset\e[0;37m "
+echo -e "\e[0;32mInput file: $input_file\e[0;37m " 
+
+echo -e "\e[0;32mProcessing with offset: $offset" > "$meta_file \e[0;37m "
+echo  "Input file: $input_file" >> "$meta_file"
 
 wait
-echo "Reading filesystem"
+echo -e "\e[0;32mReading filesystem\e[0;37m "
 fls -o $offset -r $input_file > $filesystem_file
 
 wait
-echo "Filesystem processed"
+echo -e "\e[0;32mFilesystem processed\e[0;37m "
+
 echo ""
 read -p "Display filesystem? (y/n): " choice_print_filesystem
 
@@ -142,58 +174,63 @@ hasExited=0
 while [ $hasExited -eq 0 ] ; do
     wait
     echo ""
-    echo "---ACTION----"
-    echo "'n' pick specific file via inode"
-    echo "'s' filename text search"
-    echo "'c' execute arbitrary command"
-    echo "'q' exit"
+    echo -e "\e[\e[1;35m--ACTIONS---- "
+    echo -e "'i' inspect specific file via inode"
+    echo -e "'s' filename text search"
+    echo -e "'c' execute arbitrary command"
+    echo -e "'q' exit \e[0;37m	"
     echo ""
     read -p "Enter command: " choice
     echo ""
- 
+    print_ascii
     case "$choice" in
         "s")
-            read -p "Enter search word: " search_word
+            read -p "Enter search term: " search_word
+            echo -e "\e[0;32msearching...\e[0;37m $last_word "
+            wait
             echo ""
 
             output=$(handle_search "$search_word")
 
+            echo -e "\e[1;32mResults\e[0;37m $last_word "
+            echo ""
             echo "$output"
             echo ""
-            read -p "Process all files (y) | Pick specific nodes (n) | cancel operation (q): " process_choice
+            read -p "Process all files (a) | Pick specific nodes (d) | cancel operation (q): " process_choice
             echo ""
-            if [ "$process_choice" = "y" ]; then
+            if [ "$process_choice" = "a" ]; then
                 echo "$output" | while IFS= read -r line; do
                 
                 process_line "$line"
                 done
-            elif [ "$process_choice" = "n" ]; then
+            elif [ "$process_choice" = "d" ]; then
                 echo "Picking specific node[s]..."
+                echo ""
                 wait
-                echo "Enter the index of the row to process (separated by space if multiple):"
+                echo -e "Enter the \e[1mindex of the row \e[0m to process (separated by space if multiple):"
                 read -a indexes
 
-                for index in "${indexes[@]}"; do
-                    line=$(echo "$output" | grep "^$index:")
-                    wait
-                    process_line "$line"
-
-                    done
+            for index in "${indexes[@]}"; do
+                line=$(echo "$output" | grep "^$index:")
+               # echo "Debug: Line to Process - $line" # Add this for debugging
+                process_line "$line"
+            done
             elif [ "$process_choice" = "q" ]; then
                 echo ""
             fi
-            echo "Ending procedure."
+            echo -e "\e[1;32mEnding procedure.\e[0;37m	"
             ;;
         "c")
             read -p "Enter command to execute: " user_command
             echo "Executing command: $user_command"
+            echo -e "\e[1;37m"
             eval $user_command
             ;;
         "q")
             echo "Exiting..."
             hasExited=1
             ;;
-        "n")
+        "i")
             read -p "Enter inode: " inode
             icat -o $offset $input_file $inode > "$inode.txt"
             cat "$inode.txt"
